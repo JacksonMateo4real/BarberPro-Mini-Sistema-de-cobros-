@@ -1,0 +1,84 @@
+{% extends 'layouts/base_owner.html' %}
+{% load static %}
+
+{% block title %}<title>Empleados | BarberPro</title>{% endblock %}
+
+{% block main %}
+<main class="bp-main p-4 p-md-5">
+
+    <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+        <div>
+            <h2 class="mb-1" style="font-size: 1.4rem;">Empleados</h2>
+            <p class="text-muted mb-0" style="font-size: 0.88rem;">Equipo de barberos activos</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{% url 'owner_create_employee' %}" class="btn btn-success btn-sm px-3">Crear empleado</a>
+            <a href="{% url 'owner_update_employee_view' %}" class="btn btn-info btn-sm px-3">Actualizar</a>
+            <a href="{% url 'owner_delete_employee_view' %}" class="btn btn-danger btn-sm px-3">Eliminar</a>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        {% for barber in barbers %}
+        <div class="col-md-4">
+            <div class="card p-3 h-100">
+
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <h6 class="mb-0" style="font-size: 0.95rem;">{{ barber.get_full_name }}</h6>
+                    {% for key, value in barbers_total_sales.items %}
+                        {% if key == barber.get_full_name %}
+                            {% if value >= 300 %}
+                                <span class="bp-badge">Élite</span>
+                            {% elif value >= 100 %}
+                                <span class="bp-badge">Experto</span>
+                            {% elif value >= 30 %}
+                                <span class="bp-badge bp-badge--neutral">Regular</span>
+                            {% else %}
+                                <span class="bp-badge bp-badge--neutral">Nuevo</span>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <p class="text-muted mb-3" style="font-size: 0.82rem;">{{ barber.username }}</p>
+
+                <div class="mb-2">
+                    <div class="bp-stat-label mb-0">Cortes de hoy</div>
+                    <div>
+                        {% for key, value in barbers_today_cuts.items %}
+                            {% if key == barber.get_full_name %}{{ value }}{% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <div class="bp-stat-label mb-0">Ingresos de hoy</div>
+                    <div>
+                        {% for key, value in barbers_today_incomes.items %}
+                            {% if key == barber.get_full_name %}$ {{ value }}{% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div>
+                    <div class="bp-stat-label mb-0">Último acceso</div>
+                    <div style="font-size: 0.85rem;">
+                        {% for key, value in barbers_today_login_time.items %}
+                            {% if key == barber.get_full_name %}
+                                {{ value|date:"d/m/Y H:i A"|default:"Todavía no ha iniciado sesión" }}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-muted text-center py-5 mb-0">Todavía no tienes ningún barbero activo.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</main>
+{% endblock %}

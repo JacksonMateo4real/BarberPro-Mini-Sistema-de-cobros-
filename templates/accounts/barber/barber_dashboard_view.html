@@ -1,0 +1,76 @@
+{% extends 'layouts/base_barber.html' %}
+
+{% block title %}<title>Panel de control | BarberPro</title>{% endblock %}
+
+{% block main %}
+<main>
+
+    <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-3">
+        <div>
+            <p class="text-muted mb-1" style="font-size: 0.85rem;">Resumen de hoy</p>
+            <span class="bp-hero-figure">$ {{ today_incomes }}</span>
+        </div>
+        <a href="{% url 'register_new_sale' %}" class="btn btn-success px-4 py-2">Registrar venta</a>
+    </div>
+
+    <div class="row g-3 mb-5">
+        <div class="col-sm-6">
+            <div class="bp-stat-panel">
+                <div class="bp-stat-label">Cortes de hoy</div>
+                <div class="bp-stat-value">{{ today_cuts }}</div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="bp-stat-panel">
+                <div class="bp-stat-label">Ingresos de la semana</div>
+                <div class="bp-stat-value">$ {{ last_week_incomes }}</div>
+            </div>
+        </div>
+    </div>
+
+</main>
+{% endblock %}
+
+{% block aside %}
+<aside class="mt-2">
+    <div class="d-flex align-items-baseline justify-content-between mb-3">
+        <h3 class="mb-0" style="font-size: 1.1rem;">Ventas de hoy</h3>
+        <span class="text-muted" style="font-size: 0.82rem;">Tus últimas transacciones</span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Servicio</th>
+                    <th>Precio</th>
+                    <th>Fecha</th>
+                    <th class="text-end">Editar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recent_sale in recents_sales %}
+                <tr>
+                    <td>{{ recent_sale.client.full_name }}</td>
+                    <td>{{ recent_sale.get_service_type_display }}</td>
+                    <td>$ {{ recent_sale.price }}</td>
+                    <td>{{ recent_sale.creation_date|date:"d/m/Y H:i A" }}</td>
+                    <td class="text-end">
+                        <a href="{% url 'edit_sale' recent_sale.id %}" title="Editar venta" style="color: var(--bp-muted);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">
+                        Todavía no has registrado ninguna venta hoy.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</aside>
+{% endblock %}

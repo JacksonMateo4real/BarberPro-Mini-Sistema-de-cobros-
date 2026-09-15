@@ -1,0 +1,39 @@
+{% extends 'layouts/base_owner.html' %}
+{% load static %}
+
+{% block title %}<title>Mi perfil | BarberPro</title>{% endblock %}
+
+{% block main %}
+<main class="bp-main p-4 p-md-5">
+    <div class="mb-4">
+        <h2 class="mb-1" style="font-size: 1.4rem;">Mi perfil</h2>
+        <p class="text-muted mb-0" style="font-size: 0.88rem;">Información de la cuenta</p>
+    </div>
+
+    <div class="card p-4" style="max-width: 620px;">
+        <div class="row align-items-center g-4">
+            <div class="col-md-4 text-center">
+                <img src="{% static 'images/avatar.png' %}" class="rounded-circle mb-2" width="110">
+                <h5 class="mb-0" style="font-size: 1rem;">{{ owner_data.get_full_name }}</h5>
+                <span class="bp-badge bp-badge--neutral">Propietario</span>
+            </div>
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <div class="bp-stat-label mb-0">En servicio desde</div>
+                    <div>{{ owner_data.date_joined|date:"d/m/Y" }}</div>
+                </div>
+                <hr>
+                <div class="mb-3">
+                    <div class="bp-stat-label mb-0">Número de teléfono</div>
+                    <div>{{ owner_data.phone_number|default:"No disponible" }}</div>
+                </div>
+                <hr>
+                <div>
+                    <div class="bp-stat-label mb-0">Correo electrónico</div>
+                    <div>{{ owner_data.email }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

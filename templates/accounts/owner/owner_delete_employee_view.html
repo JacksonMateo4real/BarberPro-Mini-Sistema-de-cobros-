@@ -1,0 +1,31 @@
+{% extends 'layouts/base_owner.html' %}
+{% load static %}
+
+{% block title %}<title>Eliminar empleado | BarberPro</title>{% endblock %}
+
+{% block main %}
+<main class="bp-main p-4 p-md-5">
+    <div class="mb-4">
+        <h2 class="mb-1" style="font-size: 1.4rem;">Eliminar empleado</h2>
+        <p class="text-muted mb-0" style="font-size: 0.88rem;">Esta acción no se puede deshacer</p>
+    </div>
+
+    <div class="card p-4" style="max-width: 480px;">
+        <form method="POST" action="{% url 'owner_delete_employee' %}">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label class="form-label">Empleado</label>
+                <select class="form-select" name="employee_id" required>
+                    <option value="">Selecciona un empleado</option>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}">{{ employee.first_name }} {{ employee.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-danger px-4 py-2">Eliminar empleado</button>
+        </form>
+    </div>
+</main>
+{% endblock %}

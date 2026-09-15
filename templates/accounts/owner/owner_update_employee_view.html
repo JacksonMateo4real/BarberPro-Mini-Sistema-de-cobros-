@@ -1,0 +1,67 @@
+{% extends 'layouts/base_owner.html' %}
+{% load static %}
+
+{% block title %}<title>Actualizar empleado | BarberPro</title>{% endblock %}
+
+{% block main %}
+<main class="bp-main p-4 p-md-5">
+    <div class="mb-4">
+        <h2 class="mb-1" style="font-size: 1.4rem;">Actualizar empleado</h2>
+        <p class="text-muted mb-0" style="font-size: 0.88rem;">Deja en blanco los campos que no quieras cambiar</p>
+    </div>
+
+    <div class="card p-4" style="max-width: 640px;">
+        <form method="POST" action="{% url 'owner_update_employee' %}">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label class="form-label">Empleado</label>
+                <select name="selected_employee_id" class="form-select" required>
+                    <option value="">Selecciona un empleado</option>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}">{{ employee.first_name }} {{ employee.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Usuario</label>
+                    <input type="text" name="username" class="form-control">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Correo electrónico</label>
+                    <input type="email" name="email" class="form-control">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" name="first_name" class="form-control">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Apellido</label>
+                    <input type="text" name="last_name" class="form-control">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Nueva contraseña</label>
+                    <input type="password" name="password" class="form-control">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Número de teléfono</label>
+                    <input type="tel" name="phone_number" class="form-control">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Rol</label>
+                <select name="role" class="form-select">
+                    <option value="">Sin cambios</option>
+                    <option value="owner">Propietario</option>
+                    <option value="barber">Barbero</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-info px-4 py-2">Actualizar empleado</button>
+        </form>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'layouts/base_owner.html' %}
+{% load static %}
+
+{% block title %}<title>Dashboard | BarberPro</title>{% endblock %}
+
+{% block main %}
+<main class="bp-main p-4 p-md-5">
+
+    <div class="mb-4">
+        <p class="text-muted mb-1" style="font-size: 0.85rem;">Resumen de hoy</p>
+        <span class="bp-hero-figure">$ {{ today_incomes }}</span>
+    </div>
+
+    <div class="row g-3 mb-5">
+        <div class="col-sm-6 col-md-4">
+            <div class="bp-stat-panel">
+                <div class="bp-stat-label">Cortes de hoy</div>
+                <div class="bp-stat-value">{{ today_cuts }}</div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="bp-stat-panel">
+                <div class="bp-stat-label">Ingresos de la semana</div>
+                <div class="bp-stat-value">$ {{ last_week_incomes }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex align-items-baseline justify-content-between mb-3">
+        <h3 class="mb-0" style="font-size: 1.1rem;">Actividad reciente</h3>
+        <span class="text-muted" style="font-size: 0.82rem;">Últimos servicios registrados hoy</span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Servicio</th>
+                    <th>Precio</th>
+                    <th>Fecha</th>
+                    <th>Atendido por</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recent_sale in recents_sales %}
+                <tr>
+                    <td>{{ recent_sale.client }}</td>
+                    <td>{{ recent_sale.get_service_type_display }}</td>
+                    <td>$ {{ recent_sale.price }}</td>
+                    <td>{{ recent_sale.creation_date|date:"d/m/Y H:i A" }}</td>
+                    <td>{{ recent_sale.user.get_full_name }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">
+                        Todavía no se ha registrado ningún servicio hoy.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</main>
+{% endblock %}

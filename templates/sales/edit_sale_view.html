@@ -1,0 +1,49 @@
+{% extends 'layouts/base_barber.html' %}
+
+{% block title %}<title>Editar venta | BarberPro</title>{% endblock %}
+
+{% block main %}
+<main>
+    <div class="mb-4">
+        <h2 class="mb-1" style="font-size: 1.4rem;">Editar venta</h2>
+        <p class="text-muted mb-0" style="font-size: 0.88rem;">Actualiza los datos de este servicio</p>
+    </div>
+
+    <div class="card p-4" style="max-width: 560px;">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Nombre del cliente</label>
+                <input type="text" name="client" value="{{ form.client.value|default:'' }}" placeholder="Carlos Pérez" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tipo de servicio</label>
+                <select name="service_type" class="form-select">
+                    <option value="">Selecciona el servicio</option>
+                    <option value="haircut" {% if form.service_type.value == 'haircut' %}selected{% endif %}>Corte</option>
+                    <option value="beard" {% if form.service_type.value == 'beard' %}selected{% endif %}>Barba</option>
+                    <option value="haircut_beard" {% if form.service_type.value == 'haircut_beard' %}selected{% endif %}>Corte + Barba</option>
+                    <option value="eyebrows" {% if form.service_type.value == 'eyebrows' %}selected{% endif %}>Cejas</option>
+                    <option value="full" {% if form.service_type.value == 'full' %}selected{% endif %}>Full</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Método de pago</label>
+                <select name="payment_method" class="form-select">
+                    <option value="">Selecciona el método de pago</option>
+                    <option value="cash" {% if form.payment_method.value == 'cash' %}selected{% endif %}>Efectivo</option>
+                    <option value="card" {% if form.payment_method.value == 'card' %}selected{% endif %}>Tarjeta</option>
+                </select>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success px-4 py-2">Guardar cambios</button>
+                <a href="{% url 'barber_dashboard' %}" class="btn btn-info px-4 py-2">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

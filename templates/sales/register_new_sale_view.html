@@ -1,0 +1,46 @@
+{% extends 'layouts/base_barber.html' %}
+
+{% block title %}<title>Registrar venta | BarberPro</title>{% endblock %}
+
+{% block main %}
+<main>
+    <div class="mb-4">
+        <h2 class="mb-1" style="font-size: 1.4rem;">Registrar venta</h2>
+        <p class="text-muted mb-0" style="font-size: 0.88rem;">Ingresa los datos del servicio realizado</p>
+    </div>
+
+    <div class="card p-4" style="max-width: 560px;">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Nombre del cliente</label>
+                <input type="text" name="client" placeholder="Carlos Pérez" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tipo de servicio</label>
+                <select name="service_type" class="form-select">
+                    <option value="">Selecciona el servicio</option>
+                    <option value="haircut">Corte</option>
+                    <option value="beard">Barba</option>
+                    <option value="haircut_beard">Corte + Barba</option>
+                    <option value="eyebrows">Cejas</option>
+                    <option value="full">Full</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Método de pago</label>
+                <select name="payment_method" class="form-select">
+                    <option value="">Selecciona el método de pago</option>
+                    <option value="cash">Efectivo</option>
+                    <option value="card">Tarjeta</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success px-4 py-2">Registrar venta</button>
+        </form>
+    </div>
+</main>
+{% endblock %}

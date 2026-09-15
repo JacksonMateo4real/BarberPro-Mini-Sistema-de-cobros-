@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}<title>BarberPro</title>{% endblock %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="{% static 'css/theme.css' %}" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <header class="bp-topbar sticky-top">
+        <div class="container-fluid px-4 py-2 d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn p-1 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#bpSidebar" aria-controls="bpSidebar" aria-label="Abrir menú">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+                </button>
+                <a href="{% url 'owner_dashboard' %}" class="bp-brand">BarberPro</a>
+            </div>
+            <nav class="d-flex align-items-center">
+                <a href="{% url 'owner_profile' %}" class="bp-topbar-link">Mi perfil</a>
+                <a href="{% url 'logout' %}" class="bp-topbar-link bp-topbar-link--danger" onclick="return confirm('¿Seguro que deseas cerrar sesión?');">Cerrar sesión</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="d-flex flex-grow-1">
+        {% block aside %}
+        <div class="offcanvas-md offcanvas-start bp-sidebar" tabindex="-1" id="bpSidebar" aria-labelledby="bpSidebarLabel">
+            <div class="offcanvas-header d-md-none">
+                <span class="bp-brand" id="bpSidebarLabel">BarberPro</span>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#bpSidebar" aria-label="Cerrar"></button>
+            </div>
+            <div class="offcanvas-body d-md-flex flex-column p-md-0">
+                <nav>
+                    <a href="{% url 'owner_dashboard' %}" class="bp-sidebar-link {% if request.resolver_match.url_name == 'owner_dashboard' %}active{% endif %}">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 4l9 6.5"/><path d="M5 9.5V20h14V9.5"/></svg>
+                        Inicio
+                    </a>
+                    <a href="#" class="bp-sidebar-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>
+                        Reportes
+                    </a>
+                    <a href="{% url 'owner_employee_details' %}" class="bp-sidebar-link {% if request.resolver_match.url_name == 'owner_employee_details' %}active{% endif %}">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6"/><path d="M16 8a3 3 0 1 1 3 3M22 20c0-2.5-1.9-4.6-4.5-5.5"/></svg>
+                        Empleados
+                    </a>
+                </nav>
+            </div>
+        </div>
+        {% endblock %}
+
+        <div class="bp-main flex-grow-1">
+            {% if messages %}
+            <div class="px-4 pt-3">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert"><small>{{ message }}</small></div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% block main %} {% endblock %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
