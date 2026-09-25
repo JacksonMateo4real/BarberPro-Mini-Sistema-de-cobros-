@@ -1,1 +1,1 @@
-web: python manage.py collectstatic --noinput && gunicorn barbershop_system.wsgi --log-file -
+web: python manage.py collectstatic --noinput && gunicorn barbershop_system.wsgi --bind 0.0.0.0:$PORT --log-file -
