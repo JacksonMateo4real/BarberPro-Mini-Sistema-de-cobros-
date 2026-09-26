@@ -1,12 +1,35 @@
-# BarberPro — Sistema de cobros para barbería
+# 💈 BarberPro — Sistema de cobros para barbería
+
+![Demo en vivo](https://img.shields.io/badge/demo-en%20vivo-brightgreen?style=for-the-badge)
+![Despliegue](https://img.shields.io/badge/deploy-Railway-0B0D0E?style=for-the-badge&logo=railway)
+![Django](https://img.shields.io/badge/Django-6.x-092E20?style=for-the-badge&logo=django)
 
 Proyecto Django para la gestión de ventas y empleados de una barbería, con dos roles: **propietario** y **barbero**.
+
+## 🚀 Pruébalo ahora
+
+**Demo en vivo:** **[https://web-production-5edcd.up.railway.app/](https://web-production-5edcd.up.railway.app/)**
+
+El proyecto está desplegado y funcionando. Puedes entrar directamente con estas credenciales de prueba:
+
+
+| Rol         | Usuario         | Contraseña   |
+| ----------- | --------------- | ------------ |
+| Propietario | admin           | `contrasena` |
+| Barbero     | `jackson.mateo` | `contrasena` |
+
+
+> ⚠️ Reemplaza esta tabla con credenciales reales de un usuario de prueba que hayas creado en producción (ver sección "Cómo arrancar en desarrollo" para el comando). No uses una cuenta real de barbería ni contraseñas sensibles: crea usuarios dedicados solo para que la gente pruebe la demo.
+
+
 
 ## Nota sobre los datos de prueba
 
 En el modelo no existe una clase `BarberUser`: los barberos son usuarios del modelo `accounts.User` con `role='barber'`. Los nombres usados en datos de prueba para esos usuarios pueden variar y no tienen ningún significado especial.
 
 ---
+
+
 
 ## Stack
 
@@ -15,8 +38,11 @@ En el modelo no existe una clase `BarberUser`: los barberos son usuarios del mod
 - `django-environ` para configuración por variables de entorno
 - Bootstrap 5 + hoja de estilos propia (`static/css/theme.css`)
 - `gunicorn` + `whitenoise` para despliegue en producción
+- Desplegado en **Railway**
 
 ---
+
+
 
 ## Funcionalidad
 
@@ -27,6 +53,8 @@ En el modelo no existe una clase `BarberUser`: los barberos son usuarios del mod
 - Diseño responsive (sidebar del propietario colapsa a menú hamburguesa en móvil)
 
 ---
+
+
 
 ## Bugs corregidos
 
@@ -46,6 +74,8 @@ Estos problemas existían en versiones anteriores y ya están resueltos:
 
 ---
 
+
+
 ## Seguridad y configuración
 
 - `SECRET_KEY`, `DEBUG` y `ALLOWED_HOSTS` se leen desde variables de entorno (`.env`), nunca hardcodeadas
@@ -54,17 +84,21 @@ Estos problemas existían en versiones anteriores y ya están resueltos:
 
 ---
 
+
+
 ## Pruebas
 
 10 tests automatizados cubriendo login, logout, permisos por rol (propietario vs. barbero) y registro de ventas:
 
-```
+```bash
 python manage.py test accounts sales
 ```
 
 ---
 
-## Cómo arrancar en desarrollo
+
+
+## Cómo arrancar en desarrollo local
 
 ```bash
 python -m venv venv
@@ -82,6 +116,7 @@ Para crear un usuario de prueba con rol (no uses `createsuperuser`, no permite e
 ```bash
 python manage.py shell
 ```
+
 ```python
 from accounts.models import User
 User.objects.create_user(username='admin', password='tu_clave', role='owner', phone_number='000', first_name='Admin', last_name='Owner')
@@ -92,6 +127,8 @@ python manage.py runserver
 ```
 
 ---
+
+
 
 ## Variables de entorno (`.env`)
 
@@ -106,17 +143,21 @@ Si no defines `DATABASE_URL`, el proyecto usa SQLite automáticamente.
 
 ---
 
+
+
 ## Despliegue
 
-Preparado para desplegar en plataformas como Railway o Render:
+Desplegado en **Railway**:
 
 - `Procfile` incluido (`web: gunicorn barbershop_system.wsgi --log-file -`)
 - Archivos estáticos servidos por `whitenoise`
 - Configuración 100% por variables de entorno
 
-Pasos generales: conectar el repo, agregar una base Postgres, configurar `SECRET_KEY` / `DEBUG=False` / `ALLOWED_HOSTS` como variables en la plataforma, y correr `python manage.py migrate` desde la consola del servicio.
+Pasos generales para replicarlo: conectar el repo a Railway, agregar un plugin de PostgreSQL, configurar `SECRET_KEY` / `DEBUG=False` / `ALLOWED_HOSTS` como variables de entorno del servicio, y correr `python manage.py migrate` desde la consola/shell de Railway.
 
 ---
+
+
 
 ## Pendiente (mejoras futuras)
 
@@ -124,3 +165,11 @@ Pasos generales: conectar el repo, agregar una base Postgres, configurar `SECRET
 - Implementar la app `reports` (actualmente registrada pero vacía)
 - Internacionalización (`LANGUAGE_CODE` / `TIME_ZONE` en español/zona local)
 - Corregir `RuntimeWarning` por comparación de fecha naive en `owner_dashboard`
+
+---
+
+
+
+## Autor
+
+Proyecto desarrollado por [Jackson Mateo](https://github.com/JacksonMateo4real).
